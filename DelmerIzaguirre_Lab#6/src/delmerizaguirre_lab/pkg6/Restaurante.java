@@ -39,8 +39,15 @@ public class Restaurante extends Lugar{
         this.calificacion = calificacion;
     }
 
+    
+    
     @Override
     public String toString() {
+        return super.getNombre();
+    }
+
+    @Override
+    public String getTipo() {
         return "Restaurante";
     }
     

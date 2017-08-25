@@ -21,9 +21,12 @@ public class Casa extends Lugar{
 
     @Override
     public String toString() {
-        return "Casa";
+        return super.getNombre();
     }
     
-    
+    @Override
+    public String getTipo() {
+        return "Casa";
+    }
     
 }

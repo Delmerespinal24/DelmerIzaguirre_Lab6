@@ -73,6 +73,7 @@ public abstract class Lugar {
         return salida != null;
     }
     
+    public abstract String getTipo();
 
     @Override
     public String toString() {

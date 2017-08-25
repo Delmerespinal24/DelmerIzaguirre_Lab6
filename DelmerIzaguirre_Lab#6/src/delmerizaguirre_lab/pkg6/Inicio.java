@@ -10,6 +10,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -46,7 +48,7 @@ public class Inicio extends javax.swing.JFrame {
             if (!(lug instanceof Casa)) {
                 Object[] arreglo = new Object[4];
 
-                arreglo[0] = lug.toString();
+                arreglo[0] = lug.getTipo();
                 arreglo[1] = "Nombre: " + lug.getNombre();
                 arreglo[2] = "Seguridad: " + lug.getNivelSeguridad();
                 arreglo[3] = "Direccion: " + lug.getDireccion();
@@ -85,7 +87,7 @@ public class Inicio extends javax.swing.JFrame {
             if (lug instanceof Restaurante) {
                 Object[] arreglo = new Object[4];
 
-                arreglo[0] = lug.toString();
+                arreglo[0] = lug.getTipo();
                 arreglo[1] = "Nombre: " + lug.getNombre();
                 arreglo[2] = "Seguridad: " + lug.getNivelSeguridad();
                 arreglo[3] = "Direccion: " + lug.getDireccion();
@@ -115,7 +117,7 @@ public class Inicio extends javax.swing.JFrame {
             if (lug instanceof Cancha) {
                 Object[] arreglo = new Object[4];
 
-                arreglo[0] = lug.toString();
+                arreglo[0] = lug.getTipo();
                 arreglo[1] = "Nombre: " + lug.getNombre();
                 arreglo[2] = "Seguridad: " + lug.getNivelSeguridad();
                 arreglo[3] = "Direccion: " + lug.getDireccion();
@@ -194,6 +196,11 @@ public class Inicio extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         cb_termina = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        Listar_Arbol = new javax.swing.JDialog();
+        cb_lugares = new javax.swing.JComboBox<>();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jt_lugares = new javax.swing.JTree();
         jPanel1 = new javax.swing.JPanel();
         cb_listar = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -476,6 +483,46 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
+        cb_lugares.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Restaurantes", "Canchas" }));
+        cb_lugares.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_lugaresItemStateChanged(evt);
+            }
+        });
+
+        jLabel16.setText("Lugares");
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Lugares");
+        jt_lugares.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane1.setViewportView(jt_lugares);
+
+        javax.swing.GroupLayout Listar_ArbolLayout = new javax.swing.GroupLayout(Listar_Arbol.getContentPane());
+        Listar_Arbol.getContentPane().setLayout(Listar_ArbolLayout);
+        Listar_ArbolLayout.setHorizontalGroup(
+            Listar_ArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Listar_ArbolLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel16)
+                .addGap(30, 30, 30)
+                .addComponent(cb_lugares, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(187, 187, 187))
+            .addGroup(Listar_ArbolLayout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(118, Short.MAX_VALUE))
+        );
+        Listar_ArbolLayout.setVerticalGroup(
+            Listar_ArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Listar_ArbolLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(Listar_ArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cb_lugares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
@@ -554,6 +601,11 @@ public class Inicio extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Listar por categoria");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("Listar por cercania");
@@ -579,11 +631,6 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         if (listaLugares.size() >= 2) {
-            Nueva_Carretera.setModal(true);
-            Nueva_Carretera.pack();
-            Nueva_Carretera.setLocationRelativeTo(this);
-            Nueva_Carretera.setVisible(true);
-
             DefaultComboBoxModel mod1 = (DefaultComboBoxModel) cb_inicia.getModel();
             DefaultComboBoxModel mod2 = (DefaultComboBoxModel) cb_termina.getModel();
             mod1.removeAllElements();
@@ -593,6 +640,12 @@ public class Inicio extends javax.swing.JFrame {
                 mod1.addElement(lug);
                 mod2.addElement(lug);
             }
+
+            Nueva_Carretera.setModal(true);
+            Nueva_Carretera.pack();
+            Nueva_Carretera.setLocationRelativeTo(this);
+            Nueva_Carretera.setVisible(true);
+
         } else {
             JOptionPane.showMessageDialog(this, "Deben haber almenos 2 lugares para crear una carretera");
         }
@@ -626,7 +679,7 @@ public class Inicio extends javax.swing.JFrame {
             }
             JOptionPane.showMessageDialog(Nuevo_Lugar, "Lugar agregado exitosamente");
             Nuevo_Lugar.dispose();
-            Actualizar();
+            ActualizarTab();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(Nuevo_Lugar, "No se pudo agregar");
@@ -682,7 +735,7 @@ public class Inicio extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(Nueva_Carretera, "Carretera creada");
 
                 Nueva_Carretera.dispose();
-                Actualizar();
+                ActualizarTab();
 
             } else {
                 JOptionPane.showMessageDialog(Nueva_Carretera, "Este lugar ya tiene una carretera de salida");
@@ -694,10 +747,89 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void cb_listarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_listarItemStateChanged
-        Actualizar();
+        ActualizarTab();
     }//GEN-LAST:event_cb_listarItemStateChanged
 
-    public void Actualizar() {
+    private void cb_lugaresItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_lugaresItemStateChanged
+        actualizarTree();
+
+    }//GEN-LAST:event_cb_lugaresItemStateChanged
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+       actualizarTree();
+        
+        Listar_Arbol.setModal(true);
+        Listar_Arbol.pack();
+        Listar_Arbol.setLocationRelativeTo(this);
+        Listar_Arbol.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    public void actualizarTree() {
+        DefaultTreeModel modelo = (DefaultTreeModel) jt_lugares.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        raiz.removeAllChildren();
+
+        if (cb_lugares.getSelectedIndex() == 0) {
+            DefaultMutableTreeNode chino = new DefaultMutableTreeNode("Chino");
+            DefaultMutableTreeNode mexicano = new DefaultMutableTreeNode("Mexicano");
+            DefaultMutableTreeNode italiano = new DefaultMutableTreeNode("Italiano");
+            DefaultMutableTreeNode rapida = new DefaultMutableTreeNode("Comida rapida");
+
+            for (Lugar lug : listaLugares) {
+                if (lug instanceof Restaurante) {
+                    switch (((Restaurante) lug).getCategoria()) {
+                        case "Chino":
+                            chino.add(new DefaultMutableTreeNode(lug));
+                            break;
+                        case "Mexicano":
+                            mexicano.add(new DefaultMutableTreeNode(lug));
+                            break;
+                        case "Italiano":
+                            italiano.add(new DefaultMutableTreeNode(lug));
+                            break;
+                        default:
+                            rapida.add(new DefaultMutableTreeNode(lug));
+                            break;
+                    }
+                }
+            }
+            raiz.add(chino);
+            raiz.add(mexicano);
+            raiz.add(italiano);
+            raiz.add(rapida);
+        } else {
+            DefaultMutableTreeNode football = new DefaultMutableTreeNode("Football");
+            DefaultMutableTreeNode basquet = new DefaultMutableTreeNode("Básquet");
+            DefaultMutableTreeNode tenis = new DefaultMutableTreeNode("Tenis");
+            DefaultMutableTreeNode volley = new DefaultMutableTreeNode("Volley");
+
+            for (Lugar lug : listaLugares) {
+                if (lug instanceof Cancha) {
+                    switch (((Cancha) lug).getCategoria()) {
+                        case "football":
+                            football.add(new DefaultMutableTreeNode(lug));
+                            break;
+                        case "básquet":
+                            basquet.add(new DefaultMutableTreeNode(lug));
+                            break;
+                        case "tenis":
+                            tenis.add(new DefaultMutableTreeNode(lug));
+                            break;
+                        default:
+                            volley.add(new DefaultMutableTreeNode(lug));
+                            break;
+                    }
+                }
+            }
+            raiz.add(football);
+            raiz.add(basquet);
+            raiz.add(tenis);
+            raiz.add(volley);
+        }
+        modelo.reload();
+    }
+
+    public void ActualizarTab() {
         switch (cb_listar.getSelectedIndex()) {
             case 0:
                 ActualizarTabla();
@@ -751,6 +883,7 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog Listar_Arbol;
     private javax.swing.JDialog Nueva_Carretera;
     private javax.swing.JDialog Nuevo_Lugar;
     private javax.swing.JCheckBox c_estado;
@@ -759,6 +892,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cb_inicia;
     private javax.swing.JComboBox<String> cb_listar;
     private javax.swing.JComboBox<String> cb_lugar;
+    private javax.swing.JComboBox<String> cb_lugares;
     private javax.swing.JComboBox<String> cb_termina;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -769,6 +903,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -785,9 +920,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel jp_cancha;
     private javax.swing.JPanel jp_restaurante;
+    private javax.swing.JTree jt_lugares;
     private javax.swing.JSpinner sp_calificacion;
     private javax.swing.JSpinner sp_distancia;
     private javax.swing.JSpinner sp_nivel;

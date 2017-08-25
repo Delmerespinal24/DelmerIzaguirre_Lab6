@@ -38,13 +38,18 @@ public class Cancha extends Lugar{
     public void setEstado(String Estado) {
         this.Estado = Estado;
     }
+    
+    
 
     @Override
     public String toString() {
-        return "Cancha";
+        return super.getNombre();
     }
 
-    
+    @Override
+    public String getTipo() {
+        return "Cancha";
+    }
     
     
     
