@@ -207,6 +207,8 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jl_lugares = new javax.swing.JList<>();
         jLabel18 = new javax.swing.JLabel();
+        menu_popup = new javax.swing.JPopupMenu();
+        Eliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         cb_listar = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -577,6 +579,14 @@ public class Inicio extends javax.swing.JFrame {
                 .addGap(27, 27, 27))
         );
 
+        Eliminar.setText("Eliminar");
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+        menu_popup.add(Eliminar);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
@@ -604,6 +614,11 @@ public class Inicio extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tab_listar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tab_listarMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tab_listar);
@@ -824,8 +839,11 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void cb_lugarListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_lugarListItemStateChanged
+        try {
+            actualizarList();
+        } catch (Exception e) {
+        }
 
-        actualizarList();
     }//GEN-LAST:event_cb_lugarListItemStateChanged
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -843,6 +861,21 @@ public class Inicio extends javax.swing.JFrame {
         Lista.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void tab_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab_listarMouseClicked
+        if (evt.isMetaDown()) {
+            menu_popup.show(evt.getComponent(),
+                    evt.getX(), evt.getY());
+
+        }
+    }//GEN-LAST:event_tab_listarMouseClicked
+
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        int pos = tab_listar.getSelectedRow();
+        DefaultTableModel tab = (DefaultTableModel) tab_listar.getModel();
+        tab.removeRow(pos);
+        
+    }//GEN-LAST:event_EliminarActionPerformed
 
     public void actualizarList() {
         DefaultListModel lista = (DefaultListModel) jl_lugares.getModel();
@@ -875,6 +908,7 @@ public class Inicio extends javax.swing.JFrame {
             DefaultMutableTreeNode rapida = new DefaultMutableTreeNode("Comida rapida");
 
             for (Lugar lug : listaLugares) {
+
                 if (lug instanceof Restaurante) {
                     switch (((Restaurante) lug).getCategoria()) {
                         case "Chino":
@@ -982,6 +1016,7 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Eliminar;
     private javax.swing.JDialog Lista;
     private javax.swing.JDialog Listar_Arbol;
     private javax.swing.JDialog Nueva_Carretera;
@@ -1030,6 +1065,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jp_cancha;
     private javax.swing.JPanel jp_restaurante;
     private javax.swing.JTree jt_lugares;
+    private javax.swing.JPopupMenu menu_popup;
     private javax.swing.JSpinner sp_calificacion;
     private javax.swing.JSpinner sp_distancia;
     private javax.swing.JSpinner sp_nivel;
