@@ -9,13 +9,16 @@ package delmerizaguirre_lab.pkg6;
  *
  * @author Owner
  */
-public class DelmerIzaguirre_Lab6 {
+public class Casa extends Lugar{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public Casa() {
+        super();
     }
+
+    public Casa(String nombre, String direccion, int nivelSeguridad) {
+        super(nombre, direccion, nivelSeguridad);
+    }
+    
+    
     
 }
