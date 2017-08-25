@@ -201,6 +201,12 @@ public class Inicio extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_lugares = new javax.swing.JTree();
+        Lista = new javax.swing.JDialog();
+        jLabel17 = new javax.swing.JLabel();
+        cb_lugarList = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jl_lugares = new javax.swing.JList<>();
+        jLabel18 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         cb_listar = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -523,6 +529,54 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
+        jLabel17.setText("Seleccione un lugar:");
+
+        cb_lugarList.setModel(new DefaultComboBoxModel());
+        cb_lugarList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_lugarListItemStateChanged(evt);
+            }
+        });
+
+        jl_lugares.setModel(new DefaultListModel()
+        );
+        jScrollPane3.setViewportView(jl_lugares);
+
+        jLabel18.setText("Lugares a menos de 50 km a la redonda");
+
+        javax.swing.GroupLayout ListaLayout = new javax.swing.GroupLayout(Lista.getContentPane());
+        Lista.getContentPane().setLayout(ListaLayout);
+        ListaLayout.setHorizontalGroup(
+            ListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ListaLayout.createSequentialGroup()
+                .addGroup(ListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ListaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jLabel17)
+                        .addGap(35, 35, 35)
+                        .addComponent(cb_lugarList, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ListaLayout.createSequentialGroup()
+                        .addGap(135, 135, 135)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ListaLayout.createSequentialGroup()
+                        .addGap(169, 169, 169)
+                        .addComponent(jLabel18)))
+                .addContainerGap(124, Short.MAX_VALUE))
+        );
+        ListaLayout.setVerticalGroup(
+            ListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ListaLayout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addGroup(ListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(cb_lugarList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
@@ -609,6 +663,11 @@ public class Inicio extends javax.swing.JFrame {
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("Listar por cercania");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenuBar1.add(jMenu1);
@@ -756,13 +815,53 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cb_lugaresItemStateChanged
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-       actualizarTree();
-        
+        actualizarTree();
+
         Listar_Arbol.setModal(true);
         Listar_Arbol.pack();
         Listar_Arbol.setLocationRelativeTo(this);
         Listar_Arbol.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void cb_lugarListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_lugarListItemStateChanged
+
+        actualizarList();
+    }//GEN-LAST:event_cb_lugarListItemStateChanged
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_lugarList.getModel();
+        modelo.removeAllElements();
+        for (Lugar lg : listaLugares) {
+            modelo.addElement(lg);
+        }
+
+        actualizarList();
+
+        Lista.setModal(true);
+        Lista.pack();
+        Lista.setLocationRelativeTo(this);
+        Lista.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    public void actualizarList() {
+        DefaultListModel lista = (DefaultListModel) jl_lugares.getModel();
+        lista.removeAllElements();
+
+        Lugar aqui = (Lugar) cb_lugarList.getSelectedItem();
+        for (Carretera ent : aqui.getEntradas()) {
+            if (ent.getDistancia() < 50) {
+                lista.addElement(ent.getInicio());
+            }
+        }
+        try {
+            if (aqui.getSalida().getDistancia() < 50) {
+                lista.addElement(aqui.getSalida().getFinal());
+            }
+        } catch (Exception e) {
+        }
+
+    }
 
     public void actualizarTree() {
         DefaultTreeModel modelo = (DefaultTreeModel) jt_lugares.getModel();
@@ -883,6 +982,7 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog Lista;
     private javax.swing.JDialog Listar_Arbol;
     private javax.swing.JDialog Nueva_Carretera;
     private javax.swing.JDialog Nuevo_Lugar;
@@ -892,6 +992,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cb_inicia;
     private javax.swing.JComboBox<String> cb_listar;
     private javax.swing.JComboBox<String> cb_lugar;
+    private javax.swing.JComboBox<String> cb_lugarList;
     private javax.swing.JComboBox<String> cb_lugares;
     private javax.swing.JComboBox<String> cb_termina;
     private javax.swing.JButton jButton1;
@@ -904,6 +1005,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -922,6 +1025,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList<String> jl_lugares;
     private javax.swing.JPanel jp_cancha;
     private javax.swing.JPanel jp_restaurante;
     private javax.swing.JTree jt_lugares;
