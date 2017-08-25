@@ -18,6 +18,11 @@ public class Casa extends Lugar{
     public Casa(String nombre, String direccion, int nivelSeguridad) {
         super(nombre, direccion, nivelSeguridad);
     }
+
+    @Override
+    public String toString() {
+        return "Casa";
+    }
     
     
     

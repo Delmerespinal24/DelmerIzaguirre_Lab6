@@ -39,6 +39,11 @@ public class Cancha extends Lugar{
         this.Estado = Estado;
     }
 
+    @Override
+    public String toString() {
+        return "Cancha";
+    }
+
     
     
     

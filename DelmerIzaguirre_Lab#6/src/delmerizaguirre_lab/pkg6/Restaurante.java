@@ -38,6 +38,13 @@ public class Restaurante extends Lugar{
     public void setCalificacion(byte calificacion) {
         this.calificacion = calificacion;
     }
+
+    @Override
+    public String toString() {
+        return "Restaurante";
+    }
+    
+    
     
     
 }

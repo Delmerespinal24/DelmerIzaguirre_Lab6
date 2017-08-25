@@ -61,6 +61,19 @@ public abstract class Lugar {
         this.entradas = entradas;
     }
 
+    public Carretera getSalida() {
+        return salida;
+    }
+
+    public void setSalida(Carretera salida) {
+        this.salida = salida;
+    }
+    
+    public boolean TieneSalida(){
+        return salida != null;
+    }
+    
+
     @Override
     public String toString() {
         return nombre;
