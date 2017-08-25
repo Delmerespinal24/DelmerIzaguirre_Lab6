@@ -874,7 +874,30 @@ public class Inicio extends javax.swing.JFrame {
         int pos = tab_listar.getSelectedRow();
         DefaultTableModel tab = (DefaultTableModel) tab_listar.getModel();
         tab.removeRow(pos);
-        
+
+        try {
+            cb_listar.setSelectedIndex(0);
+            ActualizarTab();
+            int cont = -1;
+            for (Lugar lg : listaLugares) {
+                if(!(lg instanceof Casa)){
+                    cont++;
+                }
+            }
+            try {
+                listaLugares.remove(cont);
+            } catch (Exception e) {
+                cont = 0 - cont;
+                for (Carretera lC : listaCarreteras) {
+                    cont++;
+                }
+                listaCarreteras.remove(cont);
+            }
+
+        } catch (Exception e) {
+        }
+
+
     }//GEN-LAST:event_EliminarActionPerformed
 
     public void actualizarList() {
